@@ -1,6 +1,7 @@
 const imageInput = document.getElementById("imageInput");
 const imageCanvas = document.getElementById("imageCanvas");
 const colorPalette = document.getElementById("colorPalette");
+const notification = document.getElementById("notification");
 const ctx = imageCanvas.getContext("2d");
 const colorThief = new ColorThief();
 
@@ -47,31 +48,44 @@ function displayColors(colors) {
     listItem.className =
       "box-content h-2 w-32 p-4 cursor-pointer border-4 rounded-md my-2 mx-1 flex items-center justify-center color-item";
     listItem.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+
+    const colorBox = document.createElement("div");
+    colorBox.className = "color-box";
+    colorBox.style.backgroundColor = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+
+    listItem.appendChild(colorBox);
+
     listItem.textContent = hexValue;
+
+    listItem.addEventListener("click", function () {
+      copyToClipboard(hexValue);
+      showNotification('Color copiado: ' + hexValue, color);
+    });
 
     colorPalette.appendChild(listItem);
   });
 }
 
-colorPalette.addEventListener('click', function(event) {
-  if (event.target.classList.contains('color-item')) {
-    const colorName = event.target.innerText;
-    copyToClipboard(colorName);
-    showNotification('Color copiado: ' + colorName);
-  }
-});
-
 function copyToClipboard(text) {
-  const textarea = document.createElement('textarea');
+  const textarea = document.createElement("textarea");
   textarea.value = text;
   document.body.appendChild(textarea);
   textarea.select();
-  document.execCommand('copy');
+  document.execCommand("copy");
   document.body.removeChild(textarea);
 }
 
-function showNotification(message) {
-  console.log(message);
+function showNotification(message, color) {
+  notification.innerHTML = `
+    <div class="flex items-center">
+      <div class="color-box" style="background-color: rgb(${color[0]}, ${color[1]}, ${color[2]})"></div>
+      <div>${message}</div>
+    </div>
+  `;
+  notification.style.display = "block";
+  setTimeout(function () {
+    notification.style.display = "none";
+  }, 3000); // Ocultar la notificación después de 3 segundos
 }
 
 function rgbToHex(r, g, b) {
