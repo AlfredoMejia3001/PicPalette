@@ -28,7 +28,7 @@ function handleImageUpload(e) {
 
       ctx.drawImage(img, 0, 0, width, height);
 
-      const colors = colorThief.getPalette(img, 5);
+      const colors = colorThief.getPalette(img, 10);
 
       displayColors(colors);
     };
