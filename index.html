@@ -8,6 +8,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .notification {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.5rem;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      border-radius: 0.5rem;
+      z-index: 9999;
+    }
+
+    .color-box {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      margin-right: 0.5rem;
+      border: 1px solid white;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
   <div class="flex items-center mb-8">
@@ -23,6 +45,8 @@
     <center><canvas id="imageCanvas" width="400" height="300" class="mb-4"></canvas></center>
     <ul id="colorPalette" class="flex justify-center flex-wrap"></ul>
   </div>
+
+  <div id="notification" class="notification"></div>
 
   <script src="script.js"></script>
 </body>
