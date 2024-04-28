@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PicPalette</title>
+  <link rel="icon" type="image/png" href="./paleta.png"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
+  <div class="flex items-center mb-8">
+    <img src="./paleta.png" class="w-16 h-16 mr-4"> 
+    <h1 class="text-center text-5xl font-bold">Pic Palette</h1> 
+  </div>
+  <div class="bg-gray-200 rounded-lg p-6 max-w-xl text-center text-lg">
+    Extrae paletas de colores de tus imágenes favoritas. Simplemente carga una imagen desde tu dispositivo, y PicPalette te mostrará una selección de los colores predominantes en esa imagen. Haz clic en cualquier color para copiar su nombre y recibir una notificación de que el color ha sido copiado.
+  </div>
+
+  <div class="w-full max-w-xl p-8 mt-8 bg-white shadow-md rounded-md">
+    <input type="file" id="imageInput" accept="image/*" class="mb-4">
+    <center><canvas id="imageCanvas" width="400" height="300" class="mb-4"></canvas></center>
+    <ul id="colorPalette" class="flex justify-center flex-wrap"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
