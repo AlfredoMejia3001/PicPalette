@@ -85,7 +85,7 @@ function showNotification(message, color) {
   notification.style.display = "block";
   setTimeout(function () {
     notification.style.display = "none";
-  }, 3000); // Ocultar la notificación después de 3 segundos
+  }, 3000); 
 }
 
 function rgbToHex(r, g, b) {
