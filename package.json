@@ -24,19 +24,19 @@
     "html"
   ],
   "author": {
-    "name": "PicPalette Team",
-    "email": "contact@picpalette.com",
-    "url": "https://github.com/tu-usuario/PicPalette"
+    "name": "Alfredo Mejia",
+    "email": "alfredo.mejia@example.com",
+    "url": "https://github.com/AlfredoMejia3001"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tu-usuario/PicPalette.git"
+    "url": "git+https://github.com/AlfredoMejia3001/PicPalette.git"
   },
   "bugs": {
-    "url": "https://github.com/tu-usuario/PicPalette/issues"
+    "url": "https://github.com/AlfredoMejia3001/PicPalette/issues"
   },
-  "homepage": "https://github.com/tu-usuario/PicPalette#readme",
+  "homepage": "https://github.com/AlfredoMejia3001/PicPalette#readme",
   "engines": {
     "node": ">=14.0.0"
   },

@@ -181,8 +181,8 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ---
 
-**¿Te gusta PicPalette? ¡Dale una ⭐ en GitHub!**
+**¿Te gusta PicPalette? ¡Dale una ⭐ en [GitHub](https://github.com/AlfredoMejia3001/PicPalette)!**
 
 ---
 
-*Desarrollado con ❤️ para la comunidad de diseñadores y desarrolladores* 
+*Desarrollado con ❤️ por [@AlfredoMejia3001](https://github.com/AlfredoMejia3001) para la comunidad de diseñadores y desarrolladores* 
