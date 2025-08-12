@@ -3,11 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PicPalette</title>
-  <link rel="icon" type="image/png" href="./paleta.png"> 
+  <title>PicPalette - Extractor de Colores</title>
+  <meta name="description" content="Extrae los colores predominantes de tus imágenes favoritas con PicPalette. Herramienta gratuita y fácil de usar para diseñadores y artistas.">
+  <meta name="keywords" content="paleta de colores, extractor de colores, diseño, arte, colores, imagen">
+  <meta name="author" content="PicPalette">
+  
+  <link rel="icon" type="image/png" href="./paleta.png">
+  <link rel="apple-touch-icon" href="./paleta.png">
+  
+  <!-- Librerías externas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="style.css">
+  
   <style>
     .notification {
       display: none;
@@ -15,40 +26,173 @@
       top: 1rem;
       left: 50%;
       transform: translateX(-50%);
-      padding: 0.5rem;
-      background-color: rgba(0, 0, 0, 0.8);
+      padding: 1rem 1.5rem;
+      background-color: rgba(0, 0, 0, 0.9);
       color: white;
-      border-radius: 0.5rem;
+      border-radius: 0.75rem;
       z-index: 9999;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
     }
 
-    .color-box {
-      display: inline-block;
-      width: 1rem;
-      height: 1rem;
-      margin-right: 0.5rem;
-      border: 1px solid white;
+    .color-item {
+      transition: all 0.3s ease;
+    }
+
+    .color-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .drop-zone {
+      border: 2px dashed #cbd5e0;
+      transition: all 0.3s ease;
+    }
+
+    .drop-zone.dragover {
+      border-color: #667eea;
+      background-color: rgba(102, 126, 234, 0.1);
+    }
+
+    .loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-  <div class="flex items-center mb-8">
-    <img src="./paleta.png" class="w-16 h-16 mr-4"> 
-    <h1 class="text-center text-5xl font-bold">PicPalette</h1> 
-  </div>
-  <div class="bg-gray-200 rounded-lg p-6 max-w-xl text-center text-lg">
-    Extrae los colores de tus imágenes favoritas. Simplemente carga una imagen desde tu dispositivo, y PicPalette te mostrará una selección de los colores predominantes en esa imagen. Haz clic en cualquier color para copiar su nombre y recibir una notificación de que el color ha sido copiado.
-  </div>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+  <!-- Header -->
+  <header class="text-center py-8">
+    <div class="flex items-center justify-center mb-6">
+      <img src="./paleta.png" alt="PicPalette Logo" class="w-20 h-20 mr-4 drop-shadow-lg">
+      <h1 class="text-6xl font-bold gradient-text drop-shadow-sm">PicPalette</h1>
+    </div>
+    
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto px-4">
+      Extrae los colores predominantes de tus imágenes favoritas. Una herramienta gratuita y fácil de usar para diseñadores, artistas y entusiastas del color.
+    </p>
+  </header>
 
-  <div class="w-full max-w-xl p-8 mt-8 bg-white shadow-md rounded-md">
-    <input type="file" id="imageInput" accept="image/*" class="mb-4">
-    <center><canvas id="imageCanvas" width="400" height="300" class="mb-4"></canvas></center>
-    <ul id="colorPalette" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></ul>
-  </div>
+  <!-- Contenedor principal -->
+  <main class="max-w-6xl mx-auto px-4 pb-8">
+    <!-- Instrucciones -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 text-center">
+      <div class="grid md:grid-cols-3 gap-6 mb-6">
+        <div class="text-center">
+          <i class="fas fa-upload text-4xl text-blue-500 mb-3"></i>
+          <h3 class="text-lg font-semibold mb-2">1. Sube tu imagen</h3>
+          <p class="text-gray-600">Arrastra y suelta o haz clic para seleccionar</p>
+        </div>
+        <div class="text-center">
+          <i class="fas fa-magic text-4xl text-purple-500 mb-3"></i>
+          <h3 class="text-lg font-semibold mb-2">2. Extrae colores</h3>
+          <p class="text-gray-600">Análisis automático de la paleta</p>
+        </div>
+        <div class="text-center">
+          <i class="fas fa-copy text-4xl text-green-500 mb-3"></i>
+          <h3 class="text-lg font-semibold mb-2">3. Copia colores</h3>
+          <p class="text-gray-600">Haz clic para copiar el código HEX</p>
+        </div>
+      </div>
+    </div>
 
+    <!-- Área de carga de imagen -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+      <div class="drop-zone rounded-xl p-8 text-center relative" id="dropZone" onclick="if(event.target === this) document.getElementById('imageInput').click()">
+        <input type="file" id="imageInput" accept="image/*" class="hidden">
+        
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+        </div>
+        
+        <!-- Mensaje de drag & drop -->
+        <div class="drag-message">
+          <i class="fas fa-cloud-download-alt mr-2"></i>
+          Suelta la imagen aquí
+        </div>
+        
+        <div class="mb-4">
+          <i class="fas fa-cloud-upload-alt text-6xl text-gray-400 mb-4 upload-icon"></i>
+          <h3 class="text-2xl font-semibold text-gray-700 mb-2">Sube tu imagen</h3>
+          <p class="text-gray-500 mb-4">Arrastra y suelta tu imagen aquí o <strong>haz clic</strong> para seleccionar</p>
+          <button id="selectFileBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200" onclick="document.getElementById('imageInput').click()">
+            <i class="fas fa-folder-open mr-2"></i>Seleccionar imagen
+          </button>
+        </div>
+        
+        <div class="text-sm text-gray-400">
+          <p>Formatos soportados: JPG, PNG, GIF, WebP</p>
+          <p>Tamaño máximo: 10MB</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vista previa de imagen -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8" id="imagePreview" style="display: none;">
+      <h3 class="text-xl font-semibold mb-4 text-center">Vista previa de la imagen</h3>
+      <div class="flex justify-center mb-4">
+        <canvas id="imageCanvas" class="max-w-full h-auto rounded-lg shadow-md"></canvas>
+      </div>
+      <div class="text-center">
+        <button id="clearBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+          <i class="fas fa-trash mr-2"></i>Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Paleta de colores -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h3 class="text-2xl font-semibold mb-6 text-center">Paleta de Colores</h3>
+      <ul id="colorPalette" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></ul>
+      
+      <div id="emptyState" class="text-center py-12 text-gray-500">
+        <i class="fas fa-palette text-6xl mb-4"></i>
+        <p class="text-xl">Sube una imagen para ver su paleta de colores</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-8 text-gray-500">
+    <p>&copy; 2024 PicPalette. Herramienta gratuita para extraer colores de imágenes.</p>
+    <p class="mt-2">
+      <a href="#" class="text-blue-500 hover:text-blue-600 transition-colors duration-200">
+        <i class="fab fa-github mr-1"></i>GitHub
+      </a>
+      |
+      <a href="#" class="text-blue-500 hover:text-blue-600 transition-colors duration-200">
+        <i class="fas fa-heart mr-1"></i>Donar
+      </a>
+    </p>
+  </footer>
+
+  <!-- Notificación -->
   <div id="notification" class="notification"></div>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
-
 </body>
 </html>

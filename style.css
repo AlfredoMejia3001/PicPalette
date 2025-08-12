@@ -1,26 +1,477 @@
+/* Estilos personalizados para PicPalette */
+
+/* Variables CSS personalizadas */
+:root {
+  --primary-color: #667eea;
+  --secondary-color: #764ba2;
+  --accent-color: #f093fb;
+  --success-color: #4ade80;
+  --warning-color: #fbbf24;
+  --error-color: #f87171;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --border-color: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset y estilos base */
+* {
+  box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Tipografía */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedores */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Tarjetas */
+.card {
+  background: var(--bg-primary);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--border-color);
+}
+
+.btn-danger {
+  background: var(--error-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #ef4444;
+  transform: translateY(-1px);
+}
+
+/* Área de carga */
+.drop-zone {
+  border: 2px dashed var(--border-color);
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+}
+
+.drop-zone:hover {
+  border-color: var(--primary-color);
+  background: rgba(102, 126, 234, 0.02);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.drop-zone:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-md);
+}
+
+.drop-zone.dragover {
+  border-color: var(--primary-color);
+  background: rgba(102, 126, 234, 0.05);
+  transform: scale(1.02);
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.drop-zone.dragover .upload-icon {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.drop-zone.dragover h3 {
+  color: var(--primary-color);
+}
+
+.drop-zone.dragover p {
+  color: var(--primary-color);
+}
+
+/* Mensaje de drag & drop */
+.drag-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(102, 126, 234, 0.9);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.drop-zone.dragover .drag-message {
+  opacity: 1;
+}
+
+/* Iconos de carga */
+.upload-icon {
+  font-size: 4rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.drop-zone:hover .upload-icon {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+/* Canvas de imagen */
+#imageCanvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+}
+
+/* Paleta de colores */
+.color-item {
+  background: var(--bg-primary);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+.color-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.color-preview {
+  width: 100%;
+  height: 5rem;
+  position: relative;
+}
+
+.color-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.color-hex {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.color-rgb {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.color-hsl {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+}
+
+.empty-state i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Notificaciones */
+.notification {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  z-index: 9999;
+  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(10px);
+  display: none;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Spinner de carga */
+.spinner {
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Instrucciones */
+.instructions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.instruction-item {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.instruction-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  margin-top: 4rem;
+}
+
+footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer a:hover {
+  color: var(--secondary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
   }
   
-  #colorPalette {
-    display: flex;
-    flex-wrap: wrap;
+  .drop-zone {
+    padding: 2rem 1rem;
   }
   
-  #colorPalette div {
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-    border: 1px solid #ccc;
+  .instructions {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   
   h1 {
-    font-size: 3em; /* Tamaño del texto */
-    background: linear-gradient(to right, #ff0000, #ff6600, #ffcc00, #33cc33, #0099ff, #6600cc); /* Degradado de colores */
-    -webkit-background-clip: text; /* Clip de fondo al texto */
-    -webkit-text-fill-color: transparent; /* Hacemos el color del texto transparente */
-    display: inline-block; /* Permitimos que se muestre el degradado en el texto */
-    text-shadow: 0px 0px 5px rgba(255,255,255,0.6); /* Sombra de texto para un efecto de relieve */
+    font-size: 2.5rem;
   }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+  
+  .drop-zone {
+    padding: 1.5rem 1rem;
+  }
+  
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Utilidades */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-custom {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Estados de hover mejorados */
+.color-item:hover .color-preview {
+  transform: scale(1.05);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Animaciones de entrada */
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Modo oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1f2937;
+    --bg-secondary: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border-color: #374151;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  }
+}
+  
+/* Indicador de click */
+.drop-zone::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(102, 126, 234, 0.05) 50%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.drop-zone:hover::before {
+  opacity: 1;
+}
+
+/* Mensaje de instrucciones mejorado */
+.drop-zone .text-gray-500 strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
   

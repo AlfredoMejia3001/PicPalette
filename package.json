@@ -1,0 +1,60 @@
+{
+  "name": "picpalette",
+  "version": "1.0.0",
+  "description": "Extractor de colores inteligente para imágenes - Herramienta web moderna y gratuita",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "build": "echo 'No build step required for static HTML project'",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'",
+    "format": "echo 'No formatting configured'"
+  },
+  "keywords": [
+    "color-palette",
+    "color-extractor",
+    "image-analysis",
+    "design-tools",
+    "web-app",
+    "frontend",
+    "javascript",
+    "css",
+    "html"
+  ],
+  "author": {
+    "name": "PicPalette Team",
+    "email": "contact@picpalette.com",
+    "url": "https://github.com/tu-usuario/PicPalette"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tu-usuario/PicPalette.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tu-usuario/PicPalette/issues"
+  },
+  "homepage": "https://github.com/tu-usuario/PicPalette#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": [],
+  "overrides": {},
+  "resolutions": {},
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/tu-usuario"
+  }
+} 
