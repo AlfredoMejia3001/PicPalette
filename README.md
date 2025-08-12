@@ -161,9 +161,9 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 📞 Soporte
 
-- **Issues**: [GitHub Issues](https://github.com/tu-usuario/PicPalette/issues)
-- **Discusiones**: [GitHub Discussions](https://github.com/tu-usuario/PicPalette/discussions)
-- **Email**: tu-email@ejemplo.com
+- **Issues**: [GitHub Issues](https://github.com/AlfredoMejia3001/PicPalette/issues)
+- **Discusiones**: [GitHub Discussions](https://github.com/AlfredoMejia3001/PicPalette/discussions)
+- **GitHub**: [@AlfredoMejia3001](https://github.com/AlfredoMejia3001)
 
 ## 🚀 Roadmap
 
